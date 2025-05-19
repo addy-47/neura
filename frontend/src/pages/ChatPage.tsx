@@ -1,36 +1,21 @@
-import React, { useState, useRef, useEffect, lazy, Suspense } from 'react';
+
+import React, { useState, useRef, useEffect } from 'react';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useMood } from '../contexts/MoodContext';
-import { moodColors } from '../contexts/MoodContext';
 import Layout from '../components/Layout';
 import { Send, ChevronUp, ChevronDown } from 'lucide-react';
 import * as THREE from 'three';
 import { useIsMobile } from '../hooks/use-mobile';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Sphere3D from '../components/Sphere3D';
 
 // Ensure THREE is available globally
 if (typeof window !== 'undefined' && !window.THREE) {
   window.THREE = THREE;
   console.log("THREE initialized in ChatPage:", THREE.REVISION);
 }
-
-// Import Sphere3D with React.lazy for code splitting
-const Sphere3D = lazy(() => {
-  console.log("Lazy loading Sphere3D component");
-  return import('../components/Sphere3D').catch(error => {
-    console.error("Failed to load Sphere3D:", error);
-    // Return a simple fallback module
-    return { 
-      default: (props: any) => (
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="text-center p-4">Error loading 3D visualization</div>
-        </div>
-      )
-    };
-  });
-});
 
 interface Message {
   id: string;
@@ -54,6 +39,7 @@ const ChatPage = () => {
   const { mood, setMood, moodColor } = useMood();
   const isMobile = useIsMobile();
   const [chatExpanded, setChatExpanded] = useState(!isMobile);
+  const [lastResponse, setLastResponse] = useState("");
 
   useEffect(() => {
     scrollToBottom();
@@ -91,6 +77,7 @@ const ChatPage = () => {
       setTimeout(() => {
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
         resolve(randomResponse);
+        setLastResponse(randomResponse);
         setIsProcessing(false);
       }, 1500);
     });
@@ -128,37 +115,28 @@ const ChatPage = () => {
   // Special layout for mobile chat page
   if (isMobile) {
     return (
-      <Layout>
-        <div className="flex flex-col h-[calc(100vh-8rem)] relative">
-          {/* 3D Sphere (takes full screen on mobile) */}
+      <Layout hideFooter={true}>
+        <div className="flex flex-col h-[calc(100vh-4rem)] relative">
+          {/* Simplified Sphere (takes full screen on mobile) */}
           <div className="flex-grow w-full">
-            <div className="w-full h-full rounded-xl overflow-hidden" style={{ minHeight: '60vh' }}>
-              <Suspense fallback={
-                <div className="text-center p-4 w-full h-full flex items-center justify-center min-h-[60vh]">
-                  <div className="animate-pulse">Loading 3D visualization...</div>
-                </div>
-              }>
-                {typeof window !== 'undefined' && window.THREE ? (
-                  <Sphere3D isProcessing={isProcessing} />
-                ) : (
-                  <div className="text-center p-4">Three.js not initialized</div>
-                )}
-              </Suspense>
+            <div className="w-full h-full rounded-xl overflow-hidden" style={{ minHeight: '50vh' }}>
+              <Sphere3D isProcessing={isProcessing} />
             </div>
           </div>
           
-          {/* Expandable chat interface */}
+          {/* Expandable chat interface - Improved positioning */}
           <div 
-            className={`fixed bottom-0 left-0 right-0 transition-all duration-300 ease-in-out bg-background backdrop-blur-xl shadow-lg rounded-t-2xl border-t-0`}
+            className={`fixed bottom-0 left-0 right-0 transition-all duration-300 ease-in-out bg-background backdrop-blur-xl shadow-lg rounded-t-2xl border-t-0 pb-safe`}
             style={{
               height: chatExpanded ? '60vh' : '4rem',
               boxShadow: `0 -5px 20px ${moodColor}20`,
-              borderColor: moodColor + '30'
+              borderColor: moodColor + '30',
+              paddingBottom: 'max(env(safe-area-inset-bottom), 0.5rem)' // Safe area for notched phones with minimum padding
             }}
           >
-            {/* Chat toggle button */}
+            {/* Chat toggle button - Moved above the text */}
             <button 
-              className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-12 h-8 bg-background rounded-t-xl border flex items-center justify-center shadow-md"
+              className="absolute -top-8 left-1/2 transform -translate-x-1/2 w-12 h-8 bg-background rounded-t-xl border flex items-center justify-center shadow-md z-10"
               onClick={() => setChatExpanded(!chatExpanded)}
               style={{ borderColor: moodColor + '30' }}
             >
@@ -206,8 +184,8 @@ const ChatPage = () => {
                 </ScrollArea>
               )}
               
-              {/* Always visible input area */}
-              <form onSubmit={handleSendMessage} className="p-4 border-t border-opacity-20" style={{ borderColor: moodColor + '30' }}>
+              {/* Always visible input area - Improved positioning */}
+              <form onSubmit={handleSendMessage} className="p-4 pb-safe border-t border-opacity-20" style={{ borderColor: moodColor + '30' }}>
                 <div className="flex space-x-2">
                   <Input
                     value={input}
@@ -239,24 +217,14 @@ const ChatPage = () => {
     );
   }
 
-  // Desktop layout - keep unchanged
+  // Desktop layout 
   return (
-    <Layout>
-      <div className="flex flex-col md:flex-row gap-6 md:min-h-[70vh]">
-        {/* 3D Sphere */}
+    <Layout hideFooter={true}>
+      <div className="flex flex-col md:flex-row gap-6 md:min-h-[calc(100vh-9rem)] mb-4 p-4">
+        {/* Simple Sphere */}
         <div className="w-full md:w-1/2 flex-none md:h-auto h-[300px]">
           <Card className="w-full h-full overflow-hidden rounded-xl shadow-xl border-0 glassmorphism" style={{ boxShadow: `0 10px 30px ${moodColor}30` }}>
-            <Suspense fallback={
-              <div className="text-center p-4 w-full h-full flex items-center justify-center">
-                <div className="animate-pulse">Loading 3D visualization...</div>
-              </div>
-            }>
-              {typeof window !== 'undefined' && window.THREE ? (
-                <Sphere3D isProcessing={isProcessing} />
-              ) : (
-                <div className="text-center p-4">Three.js not initialized</div>
-              )}
-            </Suspense>
+            <Sphere3D isProcessing={isProcessing} />
           </Card>
         </div>
         
