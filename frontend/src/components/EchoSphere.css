@@ -1,0 +1,151 @@
+/* EchoSphere component styles based on echosphere design */
+
+:root {
+  --bg-color: #111;
+  --text-color: #eee;
+  --accent-color: #666;
+  --button-bg: #333;
+  --button-hover: #444;
+  --button-active: #555;
+}
+
+.echo-sphere-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: var(--bg-color);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.echo-sphere-container:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.echo-sphere-canvas {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* UI elements */
+.echo-sphere-ui {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  z-index: 10;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-color);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.echo-sphere-ui h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.echo-sphere-ui p {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.echo-sphere-text-display {
+  font-size: 1rem;
+  font-weight: bold;
+  min-height: 24px;
+  margin-bottom: 1rem;
+}
+
+.echo-sphere-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.echo-sphere-button {
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.echo-sphere-button:hover {
+  background-color: var(--button-hover);
+}
+
+.echo-sphere-button:active {
+  background-color: var(--button-active);
+}
+
+.echo-sphere-samples {
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  max-width: 100%;
+  margin-top: 1rem;
+}
+
+.echo-sphere-sample-item {
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.echo-sphere-sample-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+  .echo-sphere-container.with-ui {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .echo-sphere-container.with-ui .echo-sphere-canvas {
+    flex: 3;
+  }
+  
+  .echo-sphere-container.with-ui .echo-sphere-ui {
+    position: relative;
+    width: 300px;
+    height: 100%;
+    border-top: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .echo-sphere-container.with-ui .echo-sphere-controls {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .echo-sphere-ui {
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    max-width: calc(100% - 20px);
+    padding: 15px;
+  }
+  
+  .echo-sphere-ui h1 {
+    font-size: 20px;
+  }
+} 
