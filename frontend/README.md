@@ -1,20 +1,12 @@
-# Welcome to your Lovable project
+# Neura AI Frontend
 
 ## Project info
 
-**URL**: https://lovable.dev/projects/123a455f-a2af-4e87-9cff-6ee9e147bff2
+A frontend application for Neura AI, featuring interactive 3D visualizations and a modern user interface.
 
 ## How can I edit this code?
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/123a455f-a2af-4e87-9cff-6ee9e147bff2) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
+You can edit this project using your preferred IDE.
 
 If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
@@ -62,12 +54,10 @@ This project is built with:
 
 ## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/123a455f-a2af-4e87-9cff-6ee9e147bff2) and click on Share -> Publish.
+1. Build the project:
 
-## Can I connect a custom domain to my Lovable project?
+```bash
+npm run build
+```
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+2. The built files will be in the `dist` directory, which you can deploy to your preferred hosting platform.

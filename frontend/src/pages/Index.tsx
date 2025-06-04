@@ -16,6 +16,7 @@ const Index = () => {
     <Layout minimal>
       <div className={`flex flex-col items-center justify-center min-h-[calc(100vh-64px)] text-center px-6 py-12 relative overflow-hidden 
         ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-gray-800'}`}>
+        
         {/* Starry background effect with CSS */}
         <div className="absolute inset-0 overflow-hidden z-0" 
           style={{
@@ -39,13 +40,13 @@ const Index = () => {
             An AI-powered digital reflection that evolves with your personality
           </p>
           
-          {/* Enhanced 3D Sphere representation with consistent color in both themes */}
+          {/* Enhanced 3D Sphere representation - CENTERED */}
           <div className="my-12 flex justify-center items-center w-full">
             <div 
               className="w-48 h-48 md:w-56 md:h-56 rounded-full mb-2 md:mb-4 relative sphere-shadow z-20 cursor-pointer transition-all duration-500 hover:scale-105"
               style={{ 
                 background: 'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0) 70%)',
-                backgroundColor: '#1a1a1a', // Same dark color for both themes
+                backgroundColor: '#1a1a1a',
                 boxShadow: '0 0 80px rgba(255, 255, 255, 0.2), inset 0 0 40px rgba(255, 255, 255, 0.1)'
               }}
             >
@@ -58,7 +59,7 @@ const Index = () => {
             </div>
           </div>
           
-          {/* Get Started Button - Centered with hover animation */}
+          {/* Get Started Button - Centered */}
           <Link 
             to="/signin" 
             className="mt-16 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-white font-medium
